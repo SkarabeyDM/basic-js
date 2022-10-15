@@ -13,10 +13,69 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function transform(arr) {
+  if (!Array.isArray(arr)) throw new Error("\'arr\' parameter must be an instance of the Array!")
+  let output = []
+  const dictionary = {
+    discard: "discard",
+    double: "double",
+    next: 1,
+    prev: -1
+  }
+  let tokens = tokenize(arr)
+  let discard = new Set()
+  let double = new Map()
+
+  function tokenize(arr) {
+    let tokens = []
+    for (let i = 0, len = arr.length; i < len; i++) {
+      if (/--\w+-\w+/g.test(arr[i])) {
+        const [oper, targ] = arr[i].match(/\w+/g)
+        if (oper in dictionary && targ in dictionary)
+          tokens.push({
+            index: i,
+            operator: oper,
+            target: i + dictionary[targ]
+          })
+      }
+    }
+    return tokens
+  }
+
+  for (let i = 0; i < tokens.length; i++) {
+    const { index, operator, target } = tokens[i];
+    discard.add(index)
+    if (operator === "discard") {
+      if (!double.has(target))
+        discard.add(target)
+      else {
+        double.set(target, double.get(target) - 1)
+      }
+    } else if (!discard.has(target)) {
+      double.set(target, double.has(target) ? double.get(target) + 1 : 2)
+    }
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    if (!discard.has(i)) {
+      if (double.has(i) && double.get(i) > 1) {
+
+        for (let j = 0; j < double.get(i); j++) {
+          output.push(element)
+        }
+      } else
+        output.push(element)
+    }
+  }
+
+  return output
 }
+// const
+//   arr = [1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5],
+//   arr2 = ['--discrard-next', 2]
+
+// console.log(transform(arr2))
 
 module.exports = {
   transform
