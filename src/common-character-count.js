@@ -29,8 +29,6 @@ function getCommonCharacterCount(s1, s2) {
   return Object.entries(charList_1).reduce((acc, [char, count]) => acc + (Math.min(charList_2[char], count) || 0), 0)
 }
 
-console.log(getCommonCharacterCount('aabcc', 'adcaa'))
-
 module.exports = {
   getCommonCharacterCount
 };

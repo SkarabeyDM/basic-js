@@ -23,9 +23,6 @@ function dateSample(sampleActivity) {
   return Math.ceil((Math.log(MODERN_ACTIVITY / +sampleActivity) / k))
 }
 
-console.log(dateSample(1))
-console.log(isNaN(parseInt("")))
-
 module.exports = {
   dateSample
 };
