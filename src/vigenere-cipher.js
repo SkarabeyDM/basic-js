@@ -36,7 +36,7 @@ class VigenereCipheringMachine {
   }
 
   #crypt(string, key, func) {
-    if (!(arguments[0] && arguments[1])) throw new Error('Incorrect arguments!')
+    if (!(string && key)) throw new Error('Incorrect arguments!')
 
     string = string.toUpperCase()
     key = key.toUpperCase()
@@ -45,12 +45,12 @@ class VigenereCipheringMachine {
     for (let i = 0, keyOffset = 0; i < string.length; i++) {
       let char = string[i];
       if (this.#isLatin(char)) {
-        char = this.#wrap(func(this.#getAlphabetPosition(char), this.#getAlphabetPosition(key[this.#wrap(keyOffset, key.length)]))) + 97
+        char = String.fromCharCode(this.#wrap(func(this.#getAlphabetPosition(char), this.#getAlphabetPosition(key[this.#wrap(keyOffset, key.length)]))) + 97)
         keyOffset++
       }
       codes.push(char)
     }
-    return this.#dir(codes.map(char => Number.isInteger(char) ? String.fromCharCode(char) : char)).join("").toUpperCase()
+    return this.#dir(codes).join("").toUpperCase()
   }
 
   encrypt = (text, key) => this.#crypt(text, key, (a, b) => a + b)
