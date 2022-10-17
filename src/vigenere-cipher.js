@@ -28,8 +28,8 @@ class VigenereCipheringMachine {
   #alphabetLength = 26
 
   #dir = (arr = []) => this.direction ? arr : arr.reverse()
-  #isLatin = (char) => /[A-Z]/.test(char)
-  #getAlphabetPosition = (char) => char.toLowerCase().charCodeAt() - 97
+  #isLatin = (char) => /[a-z]/.test(char)
+  #getAlphabetPosition = (char) => char.charCodeAt() - 97
   #wrap = (n, max = this.#alphabetLength) => {
     n = n % max
     return n < 0 ? max + n : n
@@ -38,8 +38,8 @@ class VigenereCipheringMachine {
   #crypt(string, key, func) {
     if (!(string && key)) throw new Error('Incorrect arguments!')
 
-    string = string.toUpperCase()
-    key = key.toUpperCase()
+    string = string.toLowerCase()
+    key = key.toLowerCase()
     let codes = []
     
     for (let i = 0, keyOffset = 0; i < string.length; i++) {
