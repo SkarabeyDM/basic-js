@@ -30,12 +30,12 @@ function transform(arr) {
     let tokens = []
     for (let i = 0, len = arr.length; i < len; i++) {
       if (/--\w+-\w+/g.test(arr[i])) {
-        const [oper, targ] = arr[i].match(/\w+/g)
-        if (oper in dictionary && targ in dictionary)
+        const [operator, select] = arr[i].match(/\w+/g)
+        if (operator in dictionary && select in dictionary)
           tokens.push({
             index: i,
-            operator: oper,
-            target: i + dictionary[targ]
+            operator: operator,
+            target: i + dictionary[select]
           })
       }
     }
@@ -71,11 +71,11 @@ function transform(arr) {
 
   return output
 }
-// const
-//   arr = [1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5],
-//   arr2 = ['--discrard-next', 2]
+const
+  arr = [1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5],
+  arr2 = ['--discrard-next', 2]
 
-// console.log(transform(arr2))
+console.log(transform(arr2))
 
 module.exports = {
   transform

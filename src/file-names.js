@@ -16,17 +16,17 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function renameFiles(names) {
-  let duplicates = {}
+  const duplicates = new Map()
   let newNames = []
 
-  for (let i = 0, len = names.length; i < len; i++) {
-    let fileName = names[i];
+  for (let fileName of names) {
     
-    if(duplicates[fileName] !== undefined){
-      duplicates[fileName] = duplicates[fileName] + 1
-      fileName += `(${duplicates[fileName]})`
+    if(duplicates.has(fileName)){
+      const count = duplicates.get(fileName) + 1
+      duplicates.set(fileName, count) 
+      fileName += `(${count})`
     }
-    duplicates[fileName] = 0
+    duplicates.set(fileName, 0)
 
     newNames.push(fileName)
   }

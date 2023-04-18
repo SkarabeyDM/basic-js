@@ -12,24 +12,72 @@ const { NotImplementedError } = require('../extensions/index.js');
  * depthCalc.calculateDepth([[[]]]) => 3
  *
  */
-class DepthCalculator {
-  calculateDepth(arr) {
-    let depth = 1, maxDepth = 1
-    for (let i = 0, len = arr.length; i < len; i++) {
-      const element = arr[i];
-      if(Array.isArray(element)){
-        depth = 1
-        depth += this.calculateDepth(element)
-      }
-      maxDepth = Math.max(maxDepth, depth)
-    }
-    return maxDepth
+// class DepthCalculator
+// {
+//   /**
+//     * @param {Array} arr 
+//     * @returns {number}
+//     */
+//   calculateDepth(arr)
+//   {
+//     let depth = 1
+
+//     for (const element of arr)
+//       if (Array.isArray(element))
+//         depth = Math.max(this.calculateDepth(element) + 1, depth)
+
+//     return depth
+//   }
+// }
+class DepthCalculator
+{
+  /**
+    * @param {Array} arr 
+    * @returns {number}
+    */
+  calculateDepth(arr)
+  {
+    let depth = 1
+
+    for (const element of arr)
+      if (Array.isArray(element))
+        if (depth < this.calculateDepth(element) + 1)
+          depth = this.calculateDepth(element) + 1
+
+    return depth
   }
 }
 
-// const arr = [1, [8, [[]]], [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]], []]]], []]]]]]]]], []]]], []]]]]]]]]], 2, 3, [8, [[[[[[[[[[[[[[]]]]]]]]]]]]]]], [8, [[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]], 4, 5, ['6575', ['adas', ['dfg', [0]]]]]
-// const calc = new DepthCalculator
-// console.log(calc.calculateDepth(arr))
+/* function посчитатьГлубину(масс){
+
+  let глубина = 1
+
+  цикл(масс){
+    элемент = масс[i]
+
+    если(этоМассив(элемент)){
+      глубина = макс(посчитатьГлубину(элемент) + 1, глубина)
+    }
+
+    возврат глубина
+  }
+  
+} */
+
+// class DepthCalculator
+// {
+//   /**
+//    * 
+//    * @param {Array} arr 
+//    * @returns {number}
+//    */
+//   calculateDepth = (arr) => arr.reduce((depth, element) => Array.isArray(element) ? Math.max(this.calculateDepth(element) + 1, depth) : depth, 1)
+
+// }
+
+const arr = [1, [8, [[]]], [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]], []]]], []]]]]]]]], []]]], []]]]]]]]]], 2, 3, [8, [[[[[[[[[[[[[[]]]]]]]]]]]]]]], [8, [[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]], 4, 5, ['6575', ['adas', ['dfg', [0]]]]]
+const calc = new DepthCalculator
+console.log(calc.calculateDepth(arr))
 
 module.exports = {
   DepthCalculator

@@ -10,14 +10,15 @@ const { NotImplementedError } = require('../extensions/index.js');
  * For aabbbc should return 2a3bc
  *
  */
-function encodeLine(str) {
+function encodeLine(str)
+{
   let chars = []
-  for (let i = 0, length = str.length, count = 1; i < length; i++) {
+  for (let i = 0, { length } = str, count = 1; i < length; i++) {
     const char = str[i], nextChar = str[i + 1]
-    if (char === nextChar) {
+    if (char === nextChar)
       count++
-    } else {
-      chars.push((count != 1 ? count : "") + char)
+    else {
+      chars.push((count > 1 ? count : "") + char)
       count = 1
     }
   }
